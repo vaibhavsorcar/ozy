@@ -1,10 +1,15 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, TrendingDown, ShieldCheck } from 'lucide-react';
+import { Search, MapPin, TrendingDown, ShieldCheck, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MainLayout from '@/components/layout/MainLayout';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const Index = () => {
   // This will be replaced by real data later
@@ -13,6 +18,38 @@ const Index = () => {
     { id: 2, name: "Metformin", price: 15.75, janaPrice: 6.25, savings: "60%" },
     { id: 3, name: "Amlodipine", price: 22.5, janaPrice: 7.8, savings: "65%" },
   ];
+
+  // Search state and suggestions
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  // Mock data for popular medicines suggestions
+  const popularMedicines = [
+    { id: 101, name: "Amoxicillin", category: "Antibiotics" },
+    { id: 102, name: "Atorvastatin", category: "Cholesterol" },
+    { id: 103, name: "Omeprazole", category: "Digestive" },
+    { id: 104, name: "Paracetamol", category: "Pain Relief" },
+    { id: 105, name: "Metformin", category: "Diabetes" },
+    { id: 106, name: "Amlodipine", category: "Blood Pressure" },
+    { id: 107, name: "Losartan", category: "Blood Pressure" },
+    { id: 108, name: "Cetirizine", category: "Allergy" },
+  ];
+
+  // Filter suggestions based on input
+  const suggestions = searchQuery
+    ? popularMedicines.filter(med => 
+        med.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : popularMedicines;
+
+  // Handle search query changes
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Clear search query
+  const clearSearch = () => {
+    setSearchQuery('');
+  };
 
   return (
     <MainLayout>
@@ -24,18 +61,57 @@ const Index = () => {
               Find Affordable Medicine <span className="text-medic-blue">Near You</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-              Compare prices between Jana Aushadhi Stores and local pharmacies to save on your prescriptions.
+              Compare prices between Ozy Stores and local pharmacies to save on your prescriptions.
             </p>
             <div className="max-w-2xl mx-auto">
-              <div className="flex gap-2">
-                <Input 
-                  placeholder="Search for medicines..." 
-                  className="shadow-sm" 
-                />
-                <Button>
-                  <Search className="h-4 w-4 mr-2" />
-                  Search
-                </Button>
+              <div className="relative">
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <Input 
+                      placeholder="Search for medicines..." 
+                      className="shadow-sm pr-8" 
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      onFocus={() => setIsInputFocused(true)}
+                    />
+                    {searchQuery && (
+                      <button 
+                        onClick={clearSearch} 
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                    {(isInputFocused || searchQuery) && suggestions.length > 0 && (
+                      <div className="absolute z-10 mt-1 w-full bg-white rounded-md shadow-lg border border-gray-200">
+                        <div className="p-2">
+                          <p className="text-xs text-gray-500 mb-1">Frequently searched</p>
+                          <ul className="divide-y divide-gray-100">
+                            {suggestions.map((med) => (
+                              <li 
+                                key={med.id} 
+                                className="py-2 px-1 hover:bg-gray-50 cursor-pointer rounded"
+                                onClick={() => {
+                                  setSearchQuery(med.name);
+                                  setIsInputFocused(false);
+                                }}
+                              >
+                                <div className="flex justify-between items-center">
+                                  <span>{med.name}</span>
+                                  <span className="text-xs text-gray-500">{med.category}</span>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <Button onClick={() => setIsInputFocused(false)}>
+                    <Search className="h-4 w-4 mr-2" />
+                    Search
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -77,7 +153,7 @@ const Index = () => {
               Save Money on Common Medicines
             </h2>
             <p className="text-gray-600">
-              See how much you could save by using Jana Aushadhi stores
+              See how much you could save by using Ozy stores
             </p>
           </div>
 
@@ -92,7 +168,7 @@ const Index = () => {
                       <p className="text-lg font-semibold">₹{medicine.price}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Jana Aushadhi</p>
+                      <p className="text-sm text-gray-500">Ozy</p>
                       <p className="text-lg font-semibold text-medic-green">₹{medicine.janaPrice}</p>
                     </div>
                   </div>
@@ -117,13 +193,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* About Jana Aushadhi */}
+      {/* About Ozy */}
       <section className="bg-gray-50 py-16">
         <div className="container px-4">
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold mb-4">What is Jana Aushadhi?</h2>
+                <h2 className="text-3xl font-bold mb-4">What is Ozy?</h2>
                 <p className="text-gray-600 mb-4">
                   Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP) is a campaign launched by the Department of
                   Pharmaceuticals to provide quality medicines at affordable prices.
