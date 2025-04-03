@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -42,7 +43,7 @@ export function Header() {
         <SheetHeader>
           <SheetTitle>
             <div className="flex items-center space-x-2">
-              <div className="text-medic-blue">MediChain</div>
+              <div className="text-medic-blue">Ozy</div>
             </div>
           </SheetTitle>
         </SheetHeader>
@@ -109,8 +110,8 @@ export function Header() {
         
         <div className="flex items-center gap-2 font-bold mr-4 text-xl">
           <Link to="/" className="flex items-center">
-            <span className="text-medic-blue">Medi</span>
-            <span className="text-medic-green">Chain</span>
+            <span className="text-medic-blue">O</span>
+            <span className="text-medic-green">zy</span>
           </Link>
         </div>
         

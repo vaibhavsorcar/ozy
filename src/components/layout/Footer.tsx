@@ -8,11 +8,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 font-bold text-xl mb-4">
-              <span className="text-medic-blue">Medi</span>
-              <span className="text-medic-green">Chain</span>
+              <span className="text-medic-blue">O</span>
+              <span className="text-medic-green">zy</span>
             </div>
             <p className="text-sm text-gray-600 mb-4">
-              Find and compare medicine prices across Jana Aushadhi stores and local pharmacies.
+              Find and compare medicine prices across Ozy stores and local pharmacies.
             </p>
           </div>
 
@@ -78,7 +78,7 @@ export function Footer() {
         <div className="footer-gradient h-1 my-6 rounded-full"></div>
         
         <div className="text-center text-xs text-gray-500">
-          &copy; {new Date().getFullYear()} MediChain Price Guide. All rights reserved.
+          &copy; {new Date().getFullYear()} Ozy Price Guide. All rights reserved.
         </div>
       </div>
     </footer>
