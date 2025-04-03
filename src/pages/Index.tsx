@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, TrendingDown, ShieldCheck, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -22,6 +21,7 @@ const Index = () => {
   // Search state and suggestions
   const [searchQuery, setSearchQuery] = useState('');
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const searchContainerRef = useRef(null);
 
   // Mock data for popular medicines suggestions
   const popularMedicines = [
@@ -51,6 +51,25 @@ const Index = () => {
     setSearchQuery('');
   };
 
+  // Handle search button click
+  const handleSearchButtonClick = () => {
+    setIsInputFocused(true);
+  };
+
+  // Handle outside clicks to close suggestions
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        setIsInputFocused(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
   return (
     <MainLayout>
       {/* Hero Section */}
@@ -64,7 +83,7 @@ const Index = () => {
               Compare prices between Ozy Stores and local pharmacies to save on your prescriptions.
             </p>
             <div className="max-w-2xl mx-auto">
-              <div className="relative">
+              <div className="relative" ref={searchContainerRef}>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
                     <Input 
@@ -107,7 +126,7 @@ const Index = () => {
                       </div>
                     )}
                   </div>
-                  <Button onClick={() => setIsInputFocused(false)}>
+                  <Button onClick={handleSearchButtonClick}>
                     <Search className="h-4 w-4 mr-2" />
                     Search
                   </Button>
