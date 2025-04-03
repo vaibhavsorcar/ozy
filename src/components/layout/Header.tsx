@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -91,14 +90,12 @@ export function Header() {
       <NavigationMenuList>
         {navItems.map((item) => (
           <NavigationMenuItem key={item.name}>
-            <Link to={item.path} legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <span className="flex items-center">
-                  {item.icon}
-                  <span>{item.name}</span>
-                </span>
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+              <Link to={item.path} className="flex items-center">
+                {item.icon}
+                <span>{item.name}</span>
+              </Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
         ))}
       </NavigationMenuList>
